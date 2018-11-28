@@ -54,10 +54,10 @@ EOF
 sudo apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages libcpprest-dev
 
 # Install RapidJSON library
-# RapidJSON is required for pistache and restbed samples to produce JSON result
+# RapidJSON is required for pistache, restbed and POCO samples to produce JSON result
 
 cd /tmp/build-libs
-git clone https://github.com/miloyip/rapidjson
+git clone https://github.com/Tencent/rapidjson.git
 cd rapidjson
 git submodule update --init
 cmake -DCMAKE_BUILD_TYPE=Release .
@@ -85,6 +85,17 @@ sudo make install
 sudo cp -r distribution/library/* /usr/lib/
 sudo cp -r distribution/include/* /usr/include/
 
+# Install POCO C++ framework
+
+cd /tmp/build-libs
+git clone https://github.com/pocoproject/poco.git
+cd poco
+mkdir cmake_build
+cd cmake_build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+
 cat << EOF
 |-----------------------------------|
 |                                   |
@@ -106,5 +117,13 @@ cmake -DCMAKE_BUILD_TYPE=Release .
 make
 
 cd /vagrant/cpp/restbed
+cmake -DCMAKE_BUILD_TYPE=Release .
+make
+
+cd /vagrant/cpp/poco-default_json_impl
+cmake -DCMAKE_BUILD_TYPE=Release .
+make
+
+cd /vagrant/cpp/poco-rapidjson
 cmake -DCMAKE_BUILD_TYPE=Release .
 make
