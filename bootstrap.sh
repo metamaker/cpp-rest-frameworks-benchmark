@@ -10,7 +10,7 @@ EOF
 
 # Install build tools and ntp (to prevent clock skewing)
 
-sudo mkdir /tmp/build-libs
+mkdir build-libs
 sudo apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages ntp cmake
 
 # Replace nginx configuration
@@ -56,45 +56,48 @@ sudo apt-get install -y --allow-downgrades --allow-remove-essential --allow-chan
 # Install RapidJSON library
 # RapidJSON is required for pistache, restbed and POCO samples to produce JSON result
 
-cd /tmp/build-libs
+pushd build-libs
 git clone https://github.com/Tencent/rapidjson.git
-cd rapidjson
+pushd rapidjson
 git submodule update --init
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
 sudo make install
+popd
 
 # Install Pistache C++ REST framework
 
-cd /tmp/build-libs
 git clone https://github.com/oktal/pistache.git
-cd pistache
+pushd pistache
 git submodule update --init
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
 sudo make install
+popd
 
 # Install Restbed C++ REST framework
 
-cd /tmp/build-libs
 git clone --recursive https://github.com/corvusoft/restbed.git
-cd restbed
+pushd restbed
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
 sudo make install
 sudo cp -r distribution/library/* /usr/lib/
 sudo cp -r distribution/include/* /usr/include/
+popd
 
 # Install POCO C++ framework
 
-cd /tmp/build-libs
 git clone https://github.com/pocoproject/poco.git
-cd poco
+pushd poco
 mkdir cmake_build
 cd cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release ..
-make
+make -j 8
 sudo make install
+popd
+
+popd
 
 cat << EOF
 |-----------------------------------|
@@ -104,26 +107,38 @@ cat << EOF
 |-----------------------------------|
 EOF
 
-cd /vagrant/cpp/cpprestsdk-default_json_impl
-cmake -DCMAKE_BUILD_TYPE=Release .
-make
+ls
+pushd samples/cpp
 
-cd /vagrant/cpp/cpprestsdk-rapidjson
+pushd cpprestsdk-default_json_impl
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
+popd
 
-cd /vagrant/cpp/pistache
+pushd cpprestsdk-rapidjson
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
+popd
 
-cd /vagrant/cpp/restbed
+pushd pistache
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
+popd
 
-cd /vagrant/cpp/poco-default_json_impl
+pushd restbed
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
+popd
 
-cd /vagrant/cpp/poco-rapidjson
+pushd poco-default_json_impl
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j 8
+popd
+
+pushd poco-rapidjson
+cmake -DCMAKE_BUILD_TYPE=Release .
+make -j 8
+popd
+
+popd
+

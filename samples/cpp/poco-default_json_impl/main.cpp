@@ -18,15 +18,14 @@ public:
 	{
 		resp.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
 
-		char _id[20];
 		Poco::JSON::Array JSONArray;
 		
 		for (int i = 0; i < 10000; ++i)
 		{
 			Poco::JSON::Object::Ptr JSONObject = new Poco::JSON::Object(true);
 
-			snprintf(_id, sizeof(_id), "item-%d", i);
-			JSONObject->set("id", _id);
+			std::string id("item-"); id += std::to_string(i);
+			JSONObject->set("id", id);
 			JSONObject->set("name", "Hello World");
 			JSONObject->set("type", "application");
 
