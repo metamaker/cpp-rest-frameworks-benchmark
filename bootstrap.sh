@@ -57,6 +57,7 @@ sudo apt-get install -y --allow-downgrades --allow-remove-essential --allow-chan
 # RapidJSON is required for pistache, restbed and POCO samples to produce JSON result
 
 pushd build-libs
+
 git clone https://github.com/Tencent/rapidjson.git
 pushd rapidjson
 git submodule update --init
@@ -107,7 +108,6 @@ cat << EOF
 |-----------------------------------|
 EOF
 
-ls
 pushd samples/cpp
 
 pushd cpprestsdk-default_json_impl
