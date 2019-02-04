@@ -89,11 +89,11 @@ Benchmark was done by running `ab -n 1000 -c 1 -k <url>` (see [Apache Benchmark]
 
 #### Benchmark results for default JSON implementation on Linux
 
-![poco benchmark results](https://raw.githubusercontent.com/metamaker/cpp-rest-frameworks-benchmark/master/results/benchmark-poco-default_json_impl.png)
+![poco benchmark results](https://github.com/sineang01/cpp-rest-frameworks-benchmark/blob/master/results/benchmark-poco-default_json_impl.png)
 
 #### Benchmark results with RapidJSON on Linux
 
-![poco benchmark results](https://raw.githubusercontent.com/metamaker/cpp-rest-frameworks-benchmark/master/results/benchmark-poco-rapidjson.png)
+![poco benchmark results](https://github.com/sineang01/cpp-rest-frameworks-benchmark/blob/master/results/benchmark-poco-rapidjson.png)
 
 (+) POCO has its own implementation of JSON serializer/deserializer, so you don't need to additionally include RapidJSON or other library, however the default implementation is much slower than the one using RapidJSON.
 
